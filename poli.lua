@@ -1,10 +1,12 @@
+require "settings"
+require "globals"
 -- Pul poli in cell
-function poli.put_poli( grid, x, y )
+function put_poli( grid, x, y )
     love.graphics.draw( poli, x*cell_width, y*cell_width, 0, poli_scale, poli_scale )
 end
 
 -- Put a poli in all cells in the grid that are true
-function poli.put_polis()
+function put_polis( )
     for x = 0, cells_x do
         for y = 0, cells_y do
             if grid[x][y] then
@@ -18,7 +20,7 @@ function poli.put_polis()
     end
 end
 
-function poli.calculate_power_from_poli( grid, x, y)
+function calculate_power_from_poli( x, y)
     neighbours = 0
     if x < cells_x then
         if grid[x+1][y] then
@@ -53,7 +55,7 @@ function poli.calculate_power_from_poli( grid, x, y)
 end
 
 
-function poli.calculate_power_from_polis( grid )
+function calculate_power_from_polis( )
     power_from_polis = 0  
     for x = 0, cells_x do
         for y = 0, cells_y do
