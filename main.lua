@@ -3,6 +3,15 @@ require "globals"
 require "poli"
 require "draw"
 
+function process_input()
+    if love.keyboard.isDown( "1" ) then
+        selection = TILE_POLI
+    end
+    if love.keyboard.isDown( "2" ) then
+        selection = TILE_COUNCIL
+    end
+end
+
 function game_tick()
     power_this_tick = calculate_power_from_polis( )
     power = power + power_this_tick
@@ -10,6 +19,7 @@ function game_tick()
 end
 
 function love.update(dt)
+    process_input()
     second = second - dt
     if second <= 0 then
         game_tick()
@@ -17,22 +27,41 @@ function love.update(dt)
     end
 end
 
+function love.draw()
+    draw_grid()
+    put_polis()
+    delta = love.timer.getDelta( )
+    love.graphics.print("Power: " .. power, 0, grid_size_y)
+    love.graphics.print("Power Per Second: " .. power_per_second, 0, grid_size_y + 16)
+    love.graphics.print("Delta: " .. delta, 0, grid_size_y + 32)
+    love.graphics.print("Selection: " .. selection, 0, grid_size_y + 48)
+end
+
+function left_mouse( x, y )
+    if selection == TILE_POLI and power >= poli_cost then
+        power = power - poli_cost
+        num_polis = num_polis + 1
+    end
+
+    if selection == TILE_COUNCIL and power >= council_cost then
+        power = power - council_cost
+    end
+
+    grid[x][y] = selection
+end
+
+function right_mouse( x, y )
+    grid[x][y] = TILE_EMPTY
+end
 
 function love.mousepressed( x, y, button, istouch, presses )
-    if power < poli_cost then
-        return
-    end
-
-    power = power - poli_cost
     x = math.floor(x/cell_width)
     y =  math.floor(y/cell_width)
-    if not grid[x][y] then
-        num_polis = num_polis + 1
-    else
-        num_polis = num_polis - 1
+    if button == 1 then
+        left_mouse( x, y )
+    elseif button == 2 then
+        right_mouse( x, y )
     end
-
-    grid[x][y] = not grid[x][y]
 end
 
 function love.load()
@@ -40,6 +69,7 @@ function love.load()
     love.graphics.setColor( line_color )
     love.window.setMode( grid_size_x, grid_size_y + 64, {} )
     poli = love.graphics.newImage( "Politician.jpg" )
-    -- sound = love.audio.newSource("Derp Nugget.mp3", "stream")
+    council= love.graphics.newImage( "council.jpg" )
+    sound = love.audio.newSource("Derp Nugget.mp3", "stream")
     -- love.audio.play(sound)
 end

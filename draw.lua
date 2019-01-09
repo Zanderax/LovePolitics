@@ -8,12 +8,3 @@ function draw_grid()
     end
     
 end
-
-function love.draw()
-    draw_grid()
-    put_polis( )
-    delta = love.timer.getDelta( )
-    love.graphics.print("Power: " .. power, 0, grid_size_y)
-    love.graphics.print("Power Per Second: " .. power_per_second, 0, grid_size_y + 16)
-    love.graphics.print("Delta: " .. delta, 0, grid_size_y + 32)
-end

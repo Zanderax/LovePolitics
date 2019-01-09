@@ -17,9 +17,15 @@ debug_x = 0
 debug_y = 0
 
 -- Gameplay Settings
-poli_cost = 5
-power = poli_cost * 20
+poli_cost = 10
+council_cost = 100
+power = poli_cost 
 num_polis = 0
 power_per_second = 0
 power_for_neighbours = { 1, 2, 4, 6, 10 }
 second = 1
+
+-- Tile Constants
+TILE_EMPTY = 0
+TILE_POLI = 1
+TILE_COUNCIL = 2
