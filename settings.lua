@@ -10,6 +10,8 @@ poli_scale = cell_width / poli_size
 -- Colors
 bg_color = { 0.169, 0.114, 0.227, 255 }
 line_color = { 0.529, 0.529, 0.529, 255 }
+gui_box_color = { 0, 0, 0, 255 }
+gui_line_color = { 1, 1, 1, 255 }
 power_color = { 1, 0.871, 0.239, 255 }
 
 -- Debug Varibles
