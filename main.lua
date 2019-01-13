@@ -67,11 +67,8 @@ function click_on_grid( x, y, button )
 end
 
 function love.mousepressed( x, y, button, istouch, presses )
-    if mouse_on_window( x, y ) then
-        return
-    end
-    if mouse_on_button( x, y ) then
-        toggle_window()
+    if is_mouse_on_gui( x, y ) then
+        handle_gui_input( x, y )
         return
     end
     if x <= grid_size_x and y <= grid_size_y then
