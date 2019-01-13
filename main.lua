@@ -2,6 +2,7 @@ require "settings"
 require "globals"
 require "poli"
 require "draw"
+require "gui"
 
 function process_input()
     if love.keyboard.isDown( "1" ) then
@@ -30,6 +31,7 @@ end
 function love.draw()
     draw_grid()
     put_polis()
+    draw_gui_layer()
     delta = love.timer.getDelta( )
     love.graphics.print("Power: " .. power, 0, grid_size_y)
     love.graphics.print("Power Per Second: " .. power_per_second, 0, grid_size_y + 16)
@@ -54,13 +56,26 @@ function right_mouse( x, y )
     grid[x][y] = TILE_EMPTY
 end
 
-function love.mousepressed( x, y, button, istouch, presses )
+function click_on_grid( x, y, button )
     x = math.floor(x/cell_width)
     y =  math.floor(y/cell_width)
     if button == 1 then
         left_mouse( x, y )
     elseif button == 2 then
         right_mouse( x, y )
+    end
+end
+
+function love.mousepressed( x, y, button, istouch, presses )
+    if mouse_on_window( x, y ) then
+        return
+    end
+    if mouse_on_button( x, y ) then
+        toggle_window()
+        return
+    end
+    if x <= grid_size_x and y <= grid_size_y then
+        click_on_grid( x, y, button )
     end
 end
 

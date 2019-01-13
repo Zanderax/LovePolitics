@@ -11,3 +11,5 @@ end
 
 
 selection = 1
+
+draw_box = true
