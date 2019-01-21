@@ -11,6 +11,13 @@ function process_input()
     if love.keyboard.isDown( "2" ) then
         selection = TILE_COUNCIL
     end
+    if love.keyboard.isDown( "m" ) and not m_key_down then
+        m_key_down = true
+        draw_box = not draw_box
+    end
+    if m_key_down and not love.keyboard.isDown( "m" ) then
+        m_key_down = false
+    end
 end
 
 function game_tick()

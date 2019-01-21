@@ -12,4 +12,19 @@ end
 
 selection = 1
 
-draw_box = true
+m_key_down = false
+draw_box = false
+
+box = { 
+    x = 100,
+    y = 100,
+    height = 250,
+    width = 250,
+    bar = {
+        height = 25,
+        close_button = {
+            width = 25
+        }
+    }
+}
+

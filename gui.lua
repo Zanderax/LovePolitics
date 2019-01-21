@@ -1,39 +1,52 @@
 require "globals"
 
-function draw_window( x, y )
+function draw_window( )
+    local x = box.x
+    local y = box.y
+    local height = box.height
+    local width = box.width
     if draw_box then
-        love.graphics.rectangle( "fill", x, y, 250, 250 )
-        draw_x_close_button( x, y )
-        draw_header_line( x, y )
+        love.graphics.rectangle( "fill", box.x, box.y, box.width, box.height )
+        draw_x_close_button( box.x, box.y )
+        draw_header_line( box.x, box.y )
     end
 end
 
 function draw_header_line( x, y )
+    local x = box.x
+    local y = box.y
+    local height = box.bar.height
+    local width = box.width
     r, g, b, a = love.graphics.getColor()
     love.graphics.setColor( gui_box_color )
     -- Box Lines
-    love.graphics.line( x, y + 25, x + 250, y + 25 )
+    love.graphics.line( x, y + height, x + width, y + height )
     love.graphics.setColor( r, g, b, a )
 end
 
 function draw_x_close_button( x, y )
+    local x = box.x
+    local y = box.y
+    local box_width = box.width
+    local button_height = box.bar.height
+    local button_width = box.bar.close_button.width
+    local button_x = x + box_width - button_width
+
     r, g, b, a = love.graphics.getColor()
     love.graphics.setColor( gui_box_color )
     -- Box Lines
-    love.graphics.line( x + 225, y, x + 225, y + 25, x + 250, y + 25 )
+    love.graphics.line( 
+        button_x, y,
+        button_x, y + button_height,
+        x + box_width, y + button_height )
     -- X Lines
-    love.graphics.line( x + 225, y, x + 250, y + 25 )
-    love.graphics.line( x + 250, y, x + 225, y + 25 )    
+    love.graphics.line( button_x, y, x + box_width, y + button_height )
+    love.graphics.line( x + box_width, y, button_x, y + button_height )    
     love.graphics.setColor( r, g, b, a )
 end    
 
-function draw_button()
-    love.graphics.rectangle( "fill", grid_size_x - 128, grid_size_y, 128, 32 )
-end
-
 function draw_gui_layer()
-    draw_window( 0, 0 )
-    draw_button()
+    draw_window( )
 end
 
 function close_window()
@@ -45,7 +58,10 @@ function is_mouse_on_window( x, y )
 end
 
 function is_mouse_on_button( x, y )
-    return x > grid_size_x - 128 and x < grid_size_x and y > grid_size_y and y < grid_size_y + 32
+    return x > box.x + box.width - box.bar.close_button.width
+        and x < box.x + box.width
+        and y > box.y
+        and y < box.y + box.bar.height + 32
 end
 
 function open_window()
@@ -61,7 +77,9 @@ function is_mouse_on_gui( x, y )
 end
 
 function handle_gui_input( x, y, button )
-    if is_mouse_on_button( x, y ) and button == LEFT_MOUSE then
+    if is_mouse_on_button( x, y )
+        and button == LEFT_MOUSE 
+        and draw_box then
         toggle_window()
     end
 end
